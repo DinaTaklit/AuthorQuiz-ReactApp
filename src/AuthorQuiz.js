@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import propTypes from 'prop-types';
 import './AuthorQuiz.css';
 import './bootstrap.min.css';
 
@@ -16,25 +16,47 @@ function Hero(){
 }
 
 // Add the book componenet 
-function Book({title}){
+function Book({title, onClick}){
   return (
-    <div className="answer">
+    <div className="answer" onClick={()=>{onClick(title);}}>
       <h4>{title}</h4>
     </div>
   );
 }
 
 // Add turn compoenent that will render random questions
-function Turn({author, books}){
-    return (<div className="row turn" style={{backgroundColor:"white"}}>
+function Turn({author, books, highlight, onAnswerSelected}){
+    // Add the function that map the starte of the answer to corespondant color
+    function highlightToBgColor(highlight){
+      const mapping = {
+        'none':'',
+        'correct':'green',
+        'wrong':'red'
+      };
+      return mapping[highlight];
+    }
+
+    return (<div className="row turn" style={{backgroundColor:highlightToBgColor(highlight)}}>
       <div className="col-4 offset-1">
         <img src={author.imageUrl} className="authorimage" alt="Author"></img>
       </div>
-      <div className="col-6">
-        {books.map((title) => <Book title={title} key={title}/>)}
+      <div className="col-6"> 
+        {books.map((title) => <Book title={title} key={title} onClick={onAnswerSelected} />)}
       </div>
     </div>);
 }
+// Add validation layer
+Turn.propTypes = {
+  author: propTypes.shape({
+    name: propTypes.string.isRequired,
+    imageUrl: propTypes.string.isRequired,
+    imageSource: propTypes.string.isRequired,
+    books: propTypes.arrayOf(propTypes.string).isRequired
+  }),
+  books: propTypes.arrayOf(propTypes.string).isRequired,
+  onAnswerSelected: propTypes.func.isRequired,
+  highlight: propTypes.string.isRequired
+};
 // Add continue compoenent
 function Continue(){
   return (<div></div>);
@@ -52,11 +74,11 @@ function Footer(){
 }
 
 // The Author Quiz global component 
-function AuthorQuiz({turnData}) {
+function AuthorQuiz({turnData,highlight,onAnswerSelected}) {
   return (
     <div className="container-fluid">
       <Hero></Hero>
-      <Turn {...turnData}></Turn>
+      <Turn {...turnData} highlight={highlight} onAnswerSelected={onAnswerSelected}></Turn>
       <Continue></Continue>
       <Footer></Footer>
     </div>
