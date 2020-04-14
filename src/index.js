@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, withRouter} from 'react-router-dom';
 import './index.css';
 import AuthorQuiz from './AuthorQuiz';
+import AddAuthorForm from './AddAuthorForm';
 import * as serviceWorker from './serviceWorker';
 import {shuffle, sample} from 'underscore';
 // add author list 
@@ -85,12 +86,21 @@ function App(){
       render();
     }}/>);
 }
+const AuthorWrapper = withRouter(({history}) =>
+  <AddAuthorForm onAddAuthor={(author) => {
+    authors.push(author);
+    history.push('/');
+  }}>
+
+  </AddAuthorForm>
+);
 
 function render(){
   ReactDOM.render(
     <BrowserRouter>
     <React.Fragment>
       <Route exact path="/" component={App}></Route>
+      <Route path="/add" component={AuthorWrapper}></Route>
     </React.Fragment>
     </BrowserRouter>,
     document.getElementById('root')
