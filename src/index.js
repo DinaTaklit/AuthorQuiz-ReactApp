@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter, Route, withRouter} from 'react-router-dom';
 import './index.css';
 import AuthorQuiz from './AuthorQuiz';
 import * as serviceWorker from './serviceWorker';
@@ -60,10 +61,14 @@ function getTurnData(authors){
   }
 }
 
-const state={
+// Refrech the state for every correct answer 
+function resetState(){
+  return {
     turnData: getTurnData(authors),
     highlight:''
-};
+  };
+}
+let state = resetState();
 
 function onAnswerSelected(answer){
   const isCorrect = state.turnData.author.books.some(
@@ -72,9 +77,22 @@ function onAnswerSelected(answer){
     render();
 }
 
+function App(){
+  return (<AuthorQuiz {...state} 
+  onAnswerSelected={onAnswerSelected}
+  onContinue={() => {
+      state = resetState();
+      render();
+    }}/>);
+}
+
 function render(){
   ReactDOM.render(
-    <AuthorQuiz {...state} onAnswerSelected={onAnswerSelected}/>,
+    <BrowserRouter>
+    <React.Fragment>
+      <Route exact path="/" component={App}></Route>
+    </React.Fragment>
+    </BrowserRouter>,
     document.getElementById('root')
   );
 }
