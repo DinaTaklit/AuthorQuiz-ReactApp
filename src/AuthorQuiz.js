@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
 import './AuthorQuiz.css';
 import './bootstrap.min.css';
@@ -58,8 +59,18 @@ Turn.propTypes = {
   highlight: propTypes.string.isRequired
 };
 // Add continue compoenent
-function Continue(){
-  return (<div></div>);
+function Continue({show, onContinue}){
+  return (<div className="row continue">
+    {
+      show ? 
+      <div className="col-11">
+        <button className="btn btn-primary btn-lg float-right" onClick={onContinue}>
+          Continue
+        </button>
+      </div>
+      : null
+    }
+  </div>);
 }
 
 // Add the footer
@@ -74,12 +85,13 @@ function Footer(){
 }
 
 // The Author Quiz global component 
-function AuthorQuiz({turnData,highlight,onAnswerSelected}) {
+function AuthorQuiz({turnData,highlight,onAnswerSelected, onContinue}) {
   return (
     <div className="container-fluid">
       <Hero></Hero>
       <Turn {...turnData} highlight={highlight} onAnswerSelected={onAnswerSelected}></Turn>
-      <Continue></Continue>
+      <Continue show={highlight === 'correct'} onContinue={onContinue}></Continue>
+      <p><Link to="/add">Add an author</Link></p>
       <Footer></Footer>
     </div>
   );
