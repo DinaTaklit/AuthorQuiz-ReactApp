@@ -90,7 +90,7 @@ function render(){
   ReactDOM.render(
     <BrowserRouter>
     <React.Fragment>
-      <Route exact path="/" component={App}></Route>
+      <Route exact path="/AuthorQuiz-ReactApp" component={App}></Route>
     </React.Fragment>
     </BrowserRouter>,
     document.getElementById('root')

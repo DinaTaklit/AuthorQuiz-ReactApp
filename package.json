@@ -1,6 +1,6 @@
 {
   "homepage": "http://DinaTaklit.github.io/AuthorQuiz-ReactApp",
-  "name": "counter-app",
+  "name": "AuthorQuiz-ReactApp",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -40,5 +40,16 @@
   "devDependencies": {
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2"
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DinaTaklit/AuthorQuiz-ReactApp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DinaTaklit/AuthorQuiz-ReactApp/issues"
   }
 }
